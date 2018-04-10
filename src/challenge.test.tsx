@@ -61,10 +61,12 @@ test.skip('Challenge 2: AsyncTracker', () => {
   expect(app.contains(<p>{1}</p>)).toBeTruthy();
   expect(app.contains(<span>Loading...</span>)).toBeFalsy();
   button.simulate('click');
+  app.update();   // Ensure the component has re-rendered.
   expect(app.contains(<p>{1}</p>)).toBeTruthy();
   expect(app.contains(<span>Loading...</span>)).toBeTruthy();
 
   return Bluebird.delay(2000).then(() => {
+    app.update();
     expect(app.contains(<p>{2}</p>)).toBeTruthy();
   });  
 });
