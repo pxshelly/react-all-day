@@ -1,13 +1,9 @@
-import { emptyAsyncCall, AsyncCallState, State as AsyncState, AsyncStatus } from '../reducers/async';
-import { RootState } from '../reducers';
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
+import { RootState } from "../reducers";
+import { AsyncCall, AsyncStatus, emptyAsyncCall } from "../reducers/async";
 
-export function selectAsyncState(state: RootState): AsyncState {
-  return state.async;
-}
-
-export function selectAsyncCall(state: RootState, id: string): AsyncCallState {
-  return selectAsyncState(state).get(id, emptyAsyncCall);
+export function selectAsyncCall(state: RootState, id: string): AsyncCall {
+  return state.async[id] || emptyAsyncCall;
 }
 
 export function selectAsyncStatus(state: RootState, id: string): AsyncStatus {
@@ -19,6 +15,10 @@ export function selectAsyncRefCount(state: RootState, id: string): number {
 }
 
 export const hasPendingAsyncCall = createSelector(
-  selectAsyncState,
-  (async) => async.some((s) => !!s && s.status === AsyncStatus.PENDING)
+  (state: RootState) => state.async,
+  async =>
+    Object.keys(async).some(k => {
+      const call = async[k];
+      return call !== undefined && call.status === AsyncStatus.PENDING;
+    })
 );

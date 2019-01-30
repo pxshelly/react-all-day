@@ -4,11 +4,12 @@
  * http://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions
  */
 
-import { Dispatch } from 'redux';
-import { ThunkAction } from 'redux-thunk';
-import { AsyncAction } from './async';
+import { Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
+import { AsyncAction } from "./async";
 
-import { RootState } from '../reducers';
+import { RootState } from "../reducers";
+import { CounterAction } from "./counter";
 
 /**
  * A generic action type. Prefer using the more specific PayloadAction, Action, or MetaAction interfaces instead.
@@ -43,8 +44,8 @@ export type VoidAction = GenericAction<void, void>;
 export type AnyAction = GenericAction<any, any>;
 
 /** All action types that may be dispatched by the application. */
-export type RootAction = AsyncAction;
+export type RootAction = AsyncAction | CounterAction;
 
 export type RootDispatch = Dispatch<RootAction>;
 
-export type ThunkAction<R> = ThunkAction<R, RootState, {}>;
+export type ThunkAction<R> = ThunkAction<R, RootState, {}, RootAction>;

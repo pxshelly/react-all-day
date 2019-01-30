@@ -1,10 +1,13 @@
-import * as React from 'react';
-import { connect, Store } from 'react-redux';
-
-import { RootState } from './redux/reducers';
-import { AsyncStatus } from './redux/reducers/async';
-import { selectAsyncRefCount, selectAsyncStatus } from './redux/selectors/async';
-import { actionCreators as asyncActions } from './redux/actions/async';
+import * as React from "react";
+import { connect } from "react-redux";
+import { Store } from "redux";
+import { actionCreators as asyncActions } from "./redux/actions/async";
+import { RootState } from "./redux/reducers";
+import { AsyncStatus } from "./redux/reducers/async";
+import {
+  selectAsyncRefCount,
+  selectAsyncStatus
+} from "./redux/selectors/async";
 
 export interface AsyncTrackerProps {
   /** Potentially invoke `on*` methods on mount. This may cause unexpected results and is off by default. */
@@ -17,13 +20,13 @@ export interface AsyncTrackerProps {
   /** Content to render before the async call is started (AsyncStatus.NOT_STARTED). */
   initialContent?: JSX.Element;
   /** Function to call when the async call is cancelled. */
-  onCancel?: Function;
+  onCancel?: () => void;
   /** Function to call when the async call is rejected. */
-  onReject?: Function;
+  onReject?: () => void;
   /** Function to call when the async call is resolved. */
-  onResolve?: Function;
+  onResolve?: () => void;
   /** Function to call when the async call enters the PENDING status. It will never be called on mount. */
-  onStart?: Function;
+  onStart?: () => void;
   /** Rendered when the async call is pending (AsyncStatus.PENDING). */
   pendingContent?: JSX.Element;
   /**
@@ -58,7 +61,7 @@ type Props = AsyncTrackerProps & ConnectProps;
  *
  * A typical use-case for this would be invoking a callback (like a route transition) after the successful completion of
  * an API call.
- * 
+ *
  * ```
  * <AsyncTracker id="login" onResolve={() => this.transitionTo('home')} />
  * ```
@@ -67,21 +70,28 @@ type Props = AsyncTrackerProps & ConnectProps;
  * Under the hood, this component will retain the state of the async call while it's mounted and release it once
  * unmounted.
  */
-class AsyncTracker extends React.PureComponent<Props, {}> {
+class AsyncTracker extends React.PureComponent<Props> {
   static defaultProps: Partial<Props> = {
     releaseOnUnmount: true
   };
 
-  cancelTimeout: number;
+  cancelTimeout?: number;
   /** This will be set to the call ID this component instance is watching once retainAsyncState is called. */
   retainedId?: string;
-  rejectTimeout: number;
-  releaseTimeout: number;
-  resolveTimeout: number;
-  startTimeout: number;
+  rejectTimeout?: number;
+  releaseTimeout?: number;
+  resolveTimeout?: number;
+  startTimeout?: number;
 
   componentDidMount() {
-    const { callbackOnMount, onCancel, onReject, onResolve, onStart, status } = this.props;
+    const {
+      callbackOnMount,
+      onCancel,
+      onReject,
+      onResolve,
+      onStart,
+      status
+    } = this.props;
 
     if (!callbackOnMount) return;
 
@@ -98,9 +108,21 @@ class AsyncTracker extends React.PureComponent<Props, {}> {
 
   componentDidUpdate(prevProps: Props) {
     const {
-      id, onCancel, onStart, onResolve, onReject, refCount, releaseAsyncState, retainAsyncState, status
+      id,
+      onCancel,
+      onStart,
+      onResolve,
+      onReject,
+      refCount,
+      releaseAsyncState,
+      retainAsyncState,
+      status
     } = this.props;
-    const { id: prevId, releaseOnUnmount: prevReleaseOnUnmount, status: prevStatus } = prevProps;
+    const {
+      id: prevId,
+      releaseOnUnmount: prevReleaseOnUnmount,
+      status: prevStatus
+    } = prevProps;
 
     if (prevStatus !== status) {
       if (onCancel && status === AsyncStatus.CANCELLED && prevId === id) {
@@ -115,7 +137,12 @@ class AsyncTracker extends React.PureComponent<Props, {}> {
     }
 
     // When changing the ID we want to make sure we release the previous call if we were tracking something else.
-    if (prevId !== id && prevId !== undefined && prevReleaseOnUnmount && this.retainedId === prevId) {
+    if (
+      prevId !== id &&
+      prevId !== undefined &&
+      prevReleaseOnUnmount &&
+      this.retainedId === prevId
+    ) {
       releaseAsyncState(prevId);
       this.retainedId = undefined;
     }
@@ -124,7 +151,10 @@ class AsyncTracker extends React.PureComponent<Props, {}> {
     /* istanbul ignore if */
     if (refCount === 0 && this.retainedId === id) {
       this.retainedId = undefined;
-      console.warn(`Incorrectly presumed retain was obtained, but refCount is zero for async call id ${id}`);
+      // tslint:disable-next-line no-console
+      console.warn(
+        `Incorrectly presumed retain was obtained, but refCount is zero for async call id ${id}`
+      );
     }
 
     if (id !== this.retainedId) {
@@ -157,7 +187,7 @@ class AsyncTracker extends React.PureComponent<Props, {}> {
         content = this.props.rejectedContent;
         break;
       case AsyncStatus.PENDING:
-        content =  this.props.pendingContent;
+        content = this.props.pendingContent;
         break;
       case AsyncStatus.RESOLVED:
         content = this.props.resolvedContent;
@@ -172,8 +202,8 @@ class AsyncTracker extends React.PureComponent<Props, {}> {
 }
 
 const mapStateToProps = (state: RootState, props: AsyncTrackerProps) => ({
-  refCount: selectAsyncRefCount(state, props.id || ''),
-  status: selectAsyncStatus(state, props.id || '')
+  refCount: selectAsyncRefCount(state, props.id || ""),
+  status: selectAsyncStatus(state, props.id || "")
 });
 
 const mapDispatchToProps = {
@@ -181,4 +211,7 @@ const mapDispatchToProps = {
   retainAsyncState: asyncActions.retainAsyncState
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AsyncTracker);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AsyncTracker);
