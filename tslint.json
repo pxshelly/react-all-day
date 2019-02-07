@@ -7,6 +7,7 @@
     "interface-name": false, // no i leading interfaces
     "member-access": false, // no public/private
     "no-var-requires": false, // needed for local images
-    "curly": false // does not play well with prettier
+    "curly": false, // does not play well with prettier
+    "ordered-imports": false
   }
 }
