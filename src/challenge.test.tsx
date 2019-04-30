@@ -17,7 +17,7 @@ test("Challenge 1: Breadcrumb component", () => {
    * tags `<a>`):
    * https://bulma.io/documentation/components/breadcrumb/
    *
-   * - Items in the breadcrumb list must be rounded down to
+   * - Items in the breadcrumb list must be rounded to
    *     **3 significant digits** with leading and trailing zeroes.
    *
    * When that's done, unskip this test and run `yarn test` in a console to see
@@ -25,13 +25,12 @@ test("Challenge 1: Breadcrumb component", () => {
    */
 
   const component = mount(<Breadcrumb values={[0.2, 0.44456, 13.33]} />);
-
   expect(
     component.contains(
       <div className="breadcrumb">
         <ul>
           <li>0.200</li>
-          <li>0.444</li>
+          <li>0.445</li>
           <li>13.330</li>
         </ul>
       </div>
