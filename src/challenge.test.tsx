@@ -74,31 +74,20 @@ test.skip("Challenge 2: dispatching redux actions", () => {
   expect(app.contains(<p className="title">{16}</p>)).toBe(true);
 });
 
-test.skip("Challenge 3: AsyncTracker", async () => {
+test.skip("Challenge 3: async redux actions", async () => {
   /**
-   * This test will have you use the `AsyncTracker` component to watch the
-   * progress of an asynchronous action dispatch.
-   *
-   * You will need to dig into the `AsyncTracker.tsx` file to learn how to use
-   * it correctly.
+   * This test will have you watch the progress of an asynchronous action
+   * dispatch. Redux Thunk is already included in the project, but feel free to
+   * use your library of choice (Redux Saga, Redux Observable, etc...)
    *
    * Modify the `App` component such that clicking the `#delay-increment-btn`
    * element will increment the counter with a 1 second delay (using the
    * `delayIncrement` action creator).
    *
-   * While the increment is pending, use an `AsyncTracker` component to display
-   * a "Loading" indicator using a span element like so:
-   * `<span>Loading...</span>`.
+   * While the increment is pending, display a "Loading" indicator using a span
+   * element like so: `<span>Loading...</span>`.
    *
-   * Hint: The async ID for the `delayIncrement` action creator is
-   * `delay-increment`.
-   *
-   * Bonus 1: When the increment is complete, use an `AsyncTracker` callback to
-   * emit a log message with whatever you like.
-   *
-   * Bonus 2: Find a way to test the logging behavior.
-   *
-   * Bonus 3: Make the test run faster by using Sinon and getting rid of the
+   * Bonus: Make the test run faster by using Sinon and getting rid of the
    * `Bluebird.delay` call.
    */
 
@@ -168,76 +157,4 @@ test.skip("Challenge 4: remote API call", async () => {
   app.update();
 
   expect(app.contains(<li />)).toBe(true);
-});
-
-test.skip("Challenge 5: simulating failure", () => {
-  /**
-   * Use Sinon to replace the `getStuff()` implementation in `Server.ts` to
-   * return a Promise that always rejects.
-   *
-   * - Ensure that the error message (`ERROR_MESSAGE`) is displayed exactly
-   *     as-is within a "danger" notification box:
-   *     `<div className="notification is-danger"></div>`
-   * - The notification box must not appear until an error occurs.
-   *
-   * Note that completing this (or any other) challenge must not cause other
-   * tests to fail.
-   */
-  const ERROR_MESSAGE = "Failed to get the stuff!";
-
-  /** ADD STUB IMPLEMENTATION OF `getStuff()` HERE */
-
-  const store = configureStore();
-  const app = mount(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
-  const button = app.find("#remote-fetch-btn");
-
-  expect(app.contains(<div className="notification is-danger" />)).toBe(false);
-
-  button.simulate("click");
-  app.update();
-
-  expect(
-    app.contains(<div className="notification is-danger">{ERROR_MESSAGE}</div>)
-  ).toBe(true);
-});
-
-test.skip("Challenge 6: component refactoring");
-/**
- * This challenge has no pre-defined tests.
- *
- * The goal is to take the App.tsx file and refactor it so that it uses
- * components instead of using the ReactDOM elements directly.
- *
- * As an example: `<p className="heading">Counter</p>` can become
- * `<Heading>Counter</Heading>`. Use your judgment to determine how to break up
- * the components and design their props API. Refer to the documentation for the
- * CSS library used here for inspiration: https://bulma.io/documentation/
- *
- * There should be no remaining ReactDOM elements (`<section>`, `<div>`, etc.)
- * in App.tsx by the end of this exercise, and all tests must pass after the
- * refactoring is done.
- */
-
-test.skip("Challenge 7: generic getStuff", () => {
-  /**
-   * Modify the `getStuff()` function to accept an **optional** `generator`
-   * argument: this "generator" is a function that, when called, returns a
-   * random value of any one type to be included in the array of stuff.
-   *
-   * - Use of type coercion (`as`) and the `any` keyword is forbidden.
-   * - The default generator should produce the same behavior as the existing
-   *     `getStuff` function.
-   * - As before, this change must not break existing tests.
-   *
-   * The test expectations are commented because they will not typecheck as-is.
-   */
-  // const RANDOM_STRINGS = ["foo", "bar", "baz", "boop", "bop"];
-  // const randomString = () => RANDOM_STRINGS[randInt(0, RANDOM_STRINGS.length)];
-  // const alwaysNull = () => null;
-  // expect(Server.getStuff(randomString).toBeTruthy();
-  // expect(Server.getStuff(alwaysNull).toBeTruthy();
 });

@@ -1,4 +1,4 @@
-export { actionCreators as asyncActions, AsyncCallPromise } from './async';
+export { actionCreators as counterActions, CounterAction } from "./counter";
 
 export {
   ThunkAction,
@@ -10,4 +10,4 @@ export {
   PayloadAction,
   Action,
   GenericAction
-} from './interfaces';
+} from "./interfaces";

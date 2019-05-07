@@ -6,7 +6,6 @@
 
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { AsyncAction } from "./async";
 
 import { RootState } from "../reducers";
 import { CounterAction } from "./counter";
@@ -43,8 +42,12 @@ export type VoidAction = GenericAction<void, void>;
 // tslint:disable-next-line no-any
 export type AnyAction = GenericAction<any, any>;
 
-/** All action types that may be dispatched by the application. */
-export type RootAction = AsyncAction | CounterAction;
+/*
+ * All action types that may be dispatched by the application.
+ * New actions can be added as a discriminated union.
+ * See https://redux.js.org/recipes/usage-with-typescript#type-checking-actions-action-creators
+ */
+export type RootAction = CounterAction;
 
 export type RootDispatch = Dispatch<RootAction>;
 
