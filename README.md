@@ -15,5 +15,4 @@ It's a very minimal React application with the following added:
 This mostly matches the libraries we use for our production React applications, so it is a good introduction to our
 frontend architecture.
 
-To begin the challenge, start with `src/challenge.test.tsx` and follow the instructions in there. The goal is to unskip
-the tests, one by one, and get them to pass.
+To begin the challenge, please run `yarn` to install the dependencies, and then look at `src/challenge.test.tsx` to begin at the challenges.
