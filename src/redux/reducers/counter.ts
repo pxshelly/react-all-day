@@ -12,9 +12,6 @@ export const initialState: State = {
 export const reducer = (state = initialState, action: CounterAction): State => {
   switch (action.type) {
     case INCREMENT:
-      // The following antipattern is not allowed thanks to the Readonly type:
-      // state.value += action.payload;
-      // return state;
       return { ...state, value: state.value + action.payload };
     default:
       return state;
