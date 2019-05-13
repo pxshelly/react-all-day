@@ -121,15 +121,13 @@ test.skip("Challenge 4: remote API call", async () => {
    * function from `Server.ts`. This method returns a promise that
    * eventually resolves with an array of numbers ranging from 0 to 1. To
    * successfully complete this challenge the following requirements must be
-   * satisified:
+   * satisfied:
    *
    * - `App.tsx` must use the `Breadcrumb` component to display each number that
    *     is  **less than 0.5**.
    * - All components must be stateless (the results of the `getStuff()` call
    *     must be stored using a new reducer).
    * - The `Breadcrumb` must **not** re-render if `#increment-btn` is clicked.
-   *     (It has absolutely nothing to do with the counter!)
-   *     Hint: Look at `src/selectors/async.ts`.
    *
    * Once that action creator is ready, hook it up to the
    * `#remote-fetch-btn` element and unskip this test.
