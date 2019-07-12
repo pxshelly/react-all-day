@@ -9,8 +9,6 @@ It's a very minimal React application with the following added:
 - [ImmutableJS](https://facebook.github.io/immutable-js/)
 - [Enzyme](http://airbnb.io/enzyme/)
 - [Bluebird](http://bluebirdjs.com/)
-- **AsyncTracker**: an in-house solution for tracking Promises within redux; you will use this in one
-  of the challenges.
 
 This mostly matches the libraries we use for our production React applications, so it is a good introduction to our
 frontend architecture.
