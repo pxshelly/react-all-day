@@ -38,7 +38,7 @@ test("Challenge 1: Breadcrumb component", () => {
   ).toBe(true);
 });
 
-test.skip("Challenge 2: dispatching redux actions", () => {
+test("Challenge 2: dispatching redux actions", () => {
   /**
    * The App component is set up to display the current count for the counter
    * reducer.
