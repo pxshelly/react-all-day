@@ -74,7 +74,7 @@ test("Challenge 2: dispatching redux actions", () => {
   expect(app.contains(<p className="title">{16}</p>)).toBe(true);
 });
 
-test.skip("Challenge 3: async redux actions", async () => {
+test("Challenge 3: async redux actions", async () => {
   /**
    * This test will have you watch the progress of an asynchronous action
    * dispatch. Redux Thunk is already included in the project, but feel free to
